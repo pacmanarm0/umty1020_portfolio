@@ -1,69 +1,103 @@
+"use client";
+
+import type { SVGProps } from "react";
 import Image from "next/image";
+import { MotionConfig } from "framer-motion";
+import { ArrowUpRight, Mail } from "lucide-react";
+import { ExpandableCards } from "../components/expandable-card";
+import { PROFILE_DATA, PROJECTS } from "../data/projects";
+
+function GithubIcon(props: SVGProps<SVGSVGElement>) {
+  return (
+    <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" {...props}>
+      <path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12" />
+    </svg>
+  );
+}
+
+function FigmaIcon(props: SVGProps<SVGSVGElement>) {
+  return (
+    <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" {...props}>
+      <path d="M15.852 8.981h-4.588V0h4.588c2.476 0 4.49 2.014 4.49 4.49s-2.014 4.491-4.49 4.491zM12.735 7.51h3.117c1.665 0 3.019-1.355 3.019-3.019s-1.355-3.019-3.019-3.019h-3.117V7.51zm0 1.471H8.148c-2.476 0-4.49-2.014-4.49-4.49S5.672 0 8.148 0h4.588v8.981zm-4.587-7.51c-1.665 0-3.019 1.355-3.019 3.019s1.354 3.02 3.019 3.02h3.117V1.471H8.148zm4.587 15.019H8.148c-2.476 0-4.49-2.014-4.49-4.49s2.014-4.49 4.49-4.49h4.588v8.98zM8.148 8.981c-1.665 0-3.019 1.355-3.019 3.019s1.355 3.019 3.019 3.019h3.117V8.981H8.148zM8.172 24c-2.489 0-4.515-2.014-4.515-4.49s2.014-4.49 4.49-4.49h4.588v4.441c0 2.503-2.047 4.539-4.563 4.539zm-.024-7.51a3.023 3.023 0 0 0-3.019 3.019c0 1.665 1.365 3.019 3.044 3.019 1.705 0 3.093-1.376 3.093-3.068v-2.97H8.148zm7.704 0h-.098c-2.476 0-4.49-2.014-4.49-4.49s2.014-4.49 4.49-4.49h.098c2.476 0 4.49 2.014 4.49 4.49s-2.014 4.49-4.49 4.49zm-.097-7.509c-1.665 0-3.019 1.355-3.019 3.019s1.355 3.019 3.019 3.019h.098c1.665 0 3.019-1.355 3.019-3.019s-1.355-3.019-3.019-3.019h-.098z" />
+    </svg>
+  );
+}
+
+const PROFILE_LINKS = [
+  { label: "GitHub", href: PROFILE_DATA.links.github, Icon: GithubIcon, external: true },
+  { label: "Figma", href: PROFILE_DATA.links.figma, Icon: FigmaIcon, external: true },
+  { label: "Email", href: PROFILE_DATA.links.email, Icon: Mail, external: false },
+];
+
+function ProfileHeader() {
+  return (
+    <header className="flex flex-col gap-8 border-b border-zinc-800/80 pb-16 pt-10 md:pb-24 md:pt-14">
+      <div className="flex flex-wrap items-center justify-between gap-6">
+        <p className="font-gothic text-sm font-medium tracking-tight text-zinc-100">
+          {PROFILE_DATA.name}
+        </p>
+        <nav aria-label="외부 링크" className="flex flex-wrap items-center gap-2">
+          {PROFILE_LINKS.map(({ label, href, Icon, external }) => (
+            <a
+              key={label}
+              href={href}
+              {...(external && { target: "_blank", rel: "noopener noreferrer" })}
+              className="group inline-flex items-center gap-1.5 rounded-full border border-zinc-800 py-1.5 pl-3.5 pr-4 text-xs text-zinc-400 transition-colors hover:border-zinc-600 hover:text-zinc-100"
+            >
+              <Icon className="size-3.5" />
+              {label}
+              <ArrowUpRight className="size-3 -translate-x-0.5 opacity-0 transition-all group-hover:translate-x-0 group-hover:opacity-100" />
+            </a>
+          ))}
+        </nav>
+      </div>
+
+      <div className="relative aspect-[689/698] w-full max-w-[689px] overflow-hidden">
+        <Image
+          src={PROFILE_DATA.image}
+          alt={PROFILE_DATA.name}
+          fill
+          sizes="(max-width: 768px) 100vw, 689px"
+          loading="eager"
+          fetchPriority="high"
+          className="object-cover"
+        />
+      </div>
+
+      <h1 className="max-w-4xl pt-px font-display text-4xl font-extrabold leading-[1.05] tracking-[-0.04em] text-zinc-50 sm:text-6xl md:max-w-none md:text-7xl">
+        {PROFILE_DATA.tagline}
+      </h1>
+      <p className="max-w-[536px] break-keep font-pretendard text-sm leading-relaxed text-zinc-400">
+        {PROFILE_DATA.bio}
+      </p>
+    </header>
+  );
+}
 
 export default function Home() {
   return (
-    <div className="flex flex-col flex-1 items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      <main className="flex flex-1 w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-white dark:bg-black sm:items-start">
-        <Image
-          className="dark:invert h-5 w-[100px]"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
-        />
-        <div className="flex flex-col items-center gap-6 text-center sm:items-start sm:text-left">
-          <h1 className="max-w-xs text-3xl font-semibold leading-10 tracking-tight text-black dark:text-zinc-50">
-            To get started, edit the{" "}
-            <code className="rounded bg-black/[.06] px-1.5 py-0.5 font-mono text-[0.9em] dark:bg-white/[.08]">
-              page.tsx
-            </code>{" "}
-            file.
-          </h1>
-          <p className="max-w-md text-lg leading-8 text-zinc-600 dark:text-zinc-400">
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Learning
-            </a>{" "}
-            center.
-          </p>
-        </div>
-        <div className="flex flex-col gap-4 text-base font-medium sm:flex-row">
-          <a
-            className="flex h-12 w-full items-center justify-center gap-2 rounded-full bg-foreground px-5 text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc] md:w-[158px]"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert h-[14px] w-4"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={14}
-            />
-            Deploy Now
-          </a>
-          <a
-            className="flex h-12 w-full items-center justify-center rounded-full border border-solid border-black/[.08] px-5 transition-colors hover:border-transparent hover:bg-black/[.04] dark:border-white/[.145] dark:hover:bg-[#1a1a1a] md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Documentation
-          </a>
-        </div>
+    <MotionConfig reducedMotion="user">
+      <main className="mx-auto w-full max-w-6xl flex-1 px-5 md:px-10">
+        <ProfileHeader />
+
+        <section aria-labelledby="work-heading" className="pb-16 pt-px md:pb-24">
+          <div className="mb-8 flex items-baseline justify-between">
+            <h2 id="work-heading" className="text-sm font-medium text-zinc-100">
+              Selected Work
+            </h2>
+            <span className="font-pretendard text-xs font-semibold text-zinc-500">
+              ({String(PROJECTS.length).padStart(2, "0")})
+            </span>
+          </div>
+
+          <ExpandableCards projects={PROJECTS} />
+        </section>
+
+        <footer className="flex flex-col items-start border-t border-zinc-800/80 py-8 font-pretendard text-xs font-semibold text-zinc-500">
+          <span>© {new Date().getFullYear()} {PROFILE_DATA.name}</span>
+          <span>{PROFILE_DATA.tagline}</span>
+        </footer>
       </main>
-    </div>
+    </MotionConfig>
   );
 }
