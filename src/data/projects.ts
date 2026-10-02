@@ -34,9 +34,9 @@ export const PROFILE_DATA: Profile = {
   bio: "사용자의 문제를 정의하는 것에서 시작해, 디자인 시스템을 설계하고 직접 코드로 구현하는 일을 합니다. 핀테크와 SaaS 도메인에서 5년간 제품을 만들어 왔으며, 디자인과 개발 사이의 간극을 줄여 팀이 더 빠르고 일관되게 움직일 수 있도록 돕는 데 관심이 많습니다.",
   image: "/images/profile.png",
   links: {
-    github: "https://github.com/jiwoo-kim",
-    figma: "https://www.figma.com/@jiwookim",
-    email: "mailto:hello@jiwoo.design",
+    github: "https://github.com/pacmanarm0",
+    figma: "https://www.figma.com/@pacmanarm0",
+    email: "mailto:djaxodud1020@naver.com",
   },
 };
 
